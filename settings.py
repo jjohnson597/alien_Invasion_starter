@@ -22,3 +22,10 @@ class Settings:
         self.bullet_color = (255, 0, 0)
         self.bullet_amount = 5
 
+        self.alien_file = pathlib.Path.cwd() / "Assets" / "images" / "enemy_4.png"
+        self.alien_width = 40
+        self.alien_height = 40
+        self.alien_speed = 5
+
+        
+
