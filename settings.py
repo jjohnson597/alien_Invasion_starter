@@ -26,6 +26,6 @@ class Settings:
         self.alien_width = 40
         self.alien_height = 40
         self.alien_speed = 2
-
+        self.alien_direction = 1
         
 
