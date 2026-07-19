@@ -18,10 +18,10 @@ class Alien(Sprite):
         self.image = pygame.transform.scale(self.image, (self.settings.alien_width, self.settings.alien_height))
 
         self.rect = self.image.get_rect()
+
         self.rect.x = x
         self.rect.y = y
-        self.rect.x = self.rect.width
-        self.rect.y = self.rect.height
+
         self.x = float(self.rect.x)
         self.y = float(self.rect.y)
 
