@@ -43,10 +43,13 @@ class AlienFleet:
 
         for row in range(fleet_height):
             for col in range(fleet_width):
+                if row % 2 == 0 or col % 2 == 0:
+                    continue
+
                 current_x = x_offset + (col * alien_width)
                 current_y = y_offset + (row * alien_height)
-                self._create_alien(current_x, current_y)
 
+                self._create_alien(current_x, current_y)
 
     def calculate_fleet_size(
             self,
@@ -55,7 +58,7 @@ class AlienFleet:
             screen_width,
             screen_height
     ):
-        """Calculate the number of rows and columns in the fleet."""
+        """Calculate the fleet dimensions."""
         fleet_width = screen_width // alien_width
 
         if fleet_width % 2 == 0:
@@ -73,7 +76,6 @@ class AlienFleet:
 
         return fleet_width, fleet_height
 
-
     def calculate_fleet_offsets(
             self,
             alien_width,
@@ -82,7 +84,7 @@ class AlienFleet:
             fleet_width,
             fleet_height
     ):
-        """Calculate offsets that center the alien fleet."""
+        """Calculate offsets that center the fleet."""
         fleet_horizontal_spacing = fleet_width * alien_width
         x_offset = (
             screen_width - fleet_horizontal_spacing
@@ -97,6 +99,7 @@ class AlienFleet:
         return x_offset, y_offset
 
     def _create_alien(self, current_x, current_y):
+        """Create one alien and add it to the group."""
         new_alien = Alien(
             self,
             current_x,
@@ -105,6 +108,26 @@ class AlienFleet:
 
         self.aliens.add(new_alien)
 
+    def update_fleet(self):
+        """Check edges and update every alien."""
+        self._check_fleet_edges()
+        self.aliens.update()
+
+    def _check_fleet_edges(self):
+        """Check whether any alien reached an edge."""
+        for alien in self.aliens:
+            if alien.check_edges():
+                self._drop_alien_fleet()
+                self.alien_direction *= -1
+                break
+
+    def _drop_alien_fleet(self):
+        """Drop the entire fleet."""
+        for alien in self.aliens:
+            alien.y += self.alien_drop_speed
+            alien.rect.y = alien.y
+
     def draw(self):
+        """Draw every alien."""
         for alien in self.aliens:
             alien.draw_alien()

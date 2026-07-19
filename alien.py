@@ -26,18 +26,24 @@ class Alien(Sprite):
         self.y = float(self.rect.y)
 
     def update(self):
-        temp_speed = self.settings.alien_speed
+        """Move the alien horizontally."""
+        self.x += (self.settings.alien_speed * self.fleet.alien_direction)
+
+        self.rect.x = self.x
 
         if self.check_edges():
             self.settings.alien_direction *= -1
             self.y += self.settings.alien_drop_speed
             self.rect.y = self.y
             
-        self.x += temp_speed * self.settings.alien_direction
-        self.rect.x = self.x    
+        # removed undefined `temp_speed` usage; horizontal movement already applied above
 
     def check_edges(self):
-        return self.rect.right >= self.boundaries.right or self.rect.left <= self.boundaries.left
+        """Return True if the alien is at either screen edge."""
+        return (
+        self.rect.right >= self.boundaries.right
+        or self.rect.left <= self.boundaries.left
+    )
 
     def draw_alien(self):
         self.screen.blit(self.image, self.rect)
