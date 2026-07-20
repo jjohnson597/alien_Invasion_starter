@@ -5,7 +5,9 @@ from ship import Ship
 from arsenal import Arsenal
 #from alien import Alien
 from alien_fleet import AlienFleet
-
+from game_stats import GameStats
+from time import sleep
+sleep(0.5)
 
 
 class AlienInvasion:
@@ -14,6 +16,8 @@ class AlienInvasion:
         pygame.init()
 
         self.settings = Settings()
+        self.game_stats = GameStats(self.settings.ship_limit)
+
         self.screen = pygame.display.set_mode((self.settings.screen_width, self.settings.screen_height))
         pygame.display.set_caption(self.settings.name)
 
@@ -48,10 +52,10 @@ class AlienInvasion:
         """Check collisions involving the ship, aliens, and bullets."""
 
         if self.ship.check_collisions(self.alien_fleet.aliens):
-            self._reset_level()
+            self._check_game_status()
 
         if self.alien_fleet.check_fleet_bottom():
-            self._reset_level()
+            self._check_game_status()
 
         collisions = self.alien_fleet.check_collisions(
             self.ship.arsenal.arsenal
@@ -61,12 +65,28 @@ class AlienInvasion:
             self.impact_sound.play()
             self.impact_sound.fadeout(500)
 
+        if self.alien_fleet.check_destroyed_status():
+            self._reset_level()
+
+    def _check_game_status(self):
+        """Subtract a ship or stop the game when none remain."""
+
+        if self.game_stats.ships_left > 0:
+            self.game_stats.ships_left -= 1
+            self._reset_level()
+            pygame.time.wait(500)
+        else:
+            self.running = False
+
 
     def _reset_level(self):
         """Clear the current level and create a new fleet."""
         self.ship.arsenal.arsenal.empty()
         self.alien_fleet.aliens.empty()
         self.alien_fleet.create_fleet()
+
+        self.ship.rect.midbottom = self.ship.boundaries.midbottom
+        self.ship.x = float(self.ship.rect.x)
 
     def _update_screen(self):
         self.screen.blit(self.bg, (0, 0))

@@ -13,6 +13,7 @@ class Settings:
         self.ship_width = 40
         self.ship_height = 60
         self.ship_speed = 5
+        self.ship_limit = 3
 
         self.bullet_file = pathlib.Path.cwd() / "Assets" / "images" / "laserBlast.png"
         self.laser_sound = pathlib.Path.cwd() / "Assets" / "sound" / "laser.mp3"
