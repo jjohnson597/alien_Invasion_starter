@@ -129,8 +129,7 @@ class AlienFleet:
     
     def check_collisions(self, other_group):
         """Check collisions between aliens and another sprite group."""
-        return pygame.sprite.groupcollide(self.aliens,other_group,True,True)
-
+        return pygame.sprite.groupcollide(self.aliens, other_group, True, True)
 
     def check_fleet_bottom(self):
         """Return True if an alien reaches the bottom of the screen."""
@@ -141,6 +140,10 @@ class AlienFleet:
                 return True
 
         return False
+
+    def check_destroyed_status(self):
+        """Return True if all aliens have been destroyed."""
+        return not self.aliens
 
     def draw(self):
         """Draw every alien."""
