@@ -6,8 +6,7 @@ from arsenal import Arsenal
 #from alien import Alien
 from alien_fleet import AlienFleet
 from game_stats import GameStats
-from time import sleep
-sleep(0.5)
+
 
 
 class AlienInvasion:
@@ -40,21 +39,19 @@ class AlienInvasion:
     def run_game(self):
         # Game loop
         while self.running:
-            while self.running:
-                self.check_events()
-                self.ship.update()
-                self.alien_fleet.update_fleet()
-                self._check_collisions()
-                self._update_screen()
-                self.clock.tick(self.settings.FPS)
+            self.check_events()
+            self.ship.update()
+            self.alien_fleet.update_fleet()
+            self._check_collisions()
+            self._update_screen()
+            self.clock.tick(self.settings.FPS)
     
     def _check_collisions(self):
         """Check collisions involving the ship, aliens, and bullets."""
-
         if self.ship.check_collisions(self.alien_fleet.aliens):
             self._check_game_status()
 
-        if self.alien_fleet.check_fleet_bottom():
+        elif self.alien_fleet.check_fleet_bottom():
             self._check_game_status()
 
         collisions = self.alien_fleet.check_collisions(

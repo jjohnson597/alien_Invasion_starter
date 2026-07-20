@@ -24,8 +24,8 @@ class Ship:
         self.arsenal = arsenal
 
     def update(self):
-        #update ship position based on movement flags
-        self._update_ship_movement
+        """Update the ship and its bullets."""
+        self._update_ship_movement()
         self.arsenal.update_arsenal()
 
     def _update_ship_movement(self):

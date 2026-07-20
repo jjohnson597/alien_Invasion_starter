@@ -27,15 +27,11 @@ class Alien(Sprite):
 
     def update(self):
         """Move the alien horizontally."""
-        self.x += (self.settings.alien_speed * self.fleet.alien_direction)
-
+        self.x += (
+            self.settings.alien_speed
+            * self.fleet.alien_direction
+        )
         self.rect.x = self.x
-
-        if self.check_edges():
-            self.settings.alien_direction *= -1
-            self.y += self.settings.alien_drop_speed
-            self.rect.y = self.y
-            
         # removed undefined `temp_speed` usage; horizontal movement already applied above
 
     def check_edges(self):
